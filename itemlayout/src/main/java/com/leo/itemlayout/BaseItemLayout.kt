@@ -52,7 +52,7 @@ class BaseItemLayout : LinearLayout {
         iconMarginLeft = a.getInt(R.styleable.ItemAttrs_item_icon_margin_left, ICON_MARGIN_LEFT)
         iconTextMargin = a.getInt(R.styleable.ItemAttrs_item_icon_text_margin, ICON_TEXT_MARGIN)
         arrowMarginRight = a.getInt(R.styleable.ItemAttrs_item_margin_right, ARROW_MARGIN_RIGHT)
-        itemHeight = a.getInt(R.styleable.ItemAttrs_item_item_height, ICON_HEIGHT)
+        itemHeight = a.getInt(R.styleable.ItemAttrs_item_item_height, ITEM_HEIGHT)
         rightTextSize = a.getInt(R.styleable.ItemAttrs_item_right_text_size, RIGHT_TEXT_SIZE)
         rightTextColor = a.getColor(R.styleable.ItemAttrs_item_right_text_color, RIGHT_TEXT_COLOR)
         rightTextMargin = a.getInt(R.styleable.ItemAttrs_item_right_text_margin, RIGHT_TEXT_MARGIN)

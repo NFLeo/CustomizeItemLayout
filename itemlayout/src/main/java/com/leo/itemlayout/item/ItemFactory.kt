@@ -17,6 +17,7 @@ class ItemFactory(var context: Context) : AbsItemFactory() {
         try {
             when (mode) {
                 ItemMode.NORMAL -> item = NormalItemView(context)
+                ItemMode.ARROW -> item = ArrowItemView(context)
             }
 
             item?.create(attrs)

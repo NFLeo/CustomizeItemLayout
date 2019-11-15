@@ -28,8 +28,8 @@ class AttributeCreator {
     /**
      * 左侧图标
      */
-    var leftIconWidthPx: Int = LEFT_ICON_HEIGHT
-    var leftIconHeightPx: Int = LEFT_ICON_WIDTH
+    var leftIconWidthPx: Int = ICON_HEIGHT
+    var leftIconHeightPx: Int = ICON_WIDTH
     var leftResourceIds: MutableList<Int>? = null
     var leftIconStartMargin: Int = ITEM_MARGIN
 
@@ -49,6 +49,14 @@ class AttributeCreator {
     var isHideDivider = false
     // 分割线距离左边距离
     val lineMarginLeftArray = SparseIntArray()
+
+    /**
+     * 右侧图标
+     */
+    var rightIconWidthPx: Int = ICON_HEIGHT
+    var rightIconHeightPx: Int = ICON_WIDTH
+    var rightResourceId: Int? = null
+    var rightIconEndMargin: Int = ITEM_MARGIN
 
     /**
      * 设置每个Item都为同一种模式{@link ItemMode}
@@ -262,4 +270,36 @@ class AttributeCreator {
      * 下一个item是否设置marginTop
      */
     fun isNextTopMarginItem() = marginTopArray[itemPosition + 1] != 0
+
+    /**
+     * 设置右侧图标宽度
+     */
+    fun setRightIconWidth(rightIconWidthPx: Int) = this.run {
+        if (rightIconWidthPx > 0) this.rightIconWidthPx = rightIconWidthPx
+        this
+    }
+
+    /**
+     * 设置右侧图标高度
+     */
+    fun setRightIconHeight(rightIconHeightPx: Int) = this.run {
+        if (rightIconHeightPx > 0) this.rightIconHeightPx = rightIconHeightPx
+        this
+    }
+
+    /**
+     * 设置右侧图标资源
+     */
+    fun setRightResourceId(rightResourceId: Int) = this.run {
+        this.rightResourceId = rightResourceId
+        this
+    }
+
+    /**
+     * 设置右侧图标具体右边边界距离
+     */
+    fun setRightIconEndMargin(rightIconEndMarginPx: Int) = this.run {
+        this.rightIconEndMargin = rightIconEndMarginPx
+        this
+    }
 }

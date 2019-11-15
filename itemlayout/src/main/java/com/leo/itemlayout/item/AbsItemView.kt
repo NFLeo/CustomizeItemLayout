@@ -17,8 +17,8 @@ abstract class AbsItemView(private var kContext: Context?) : ConstraintLayout(kC
     private lateinit var ivRightIcon: ImageView
     private lateinit var tvLeftTitle: TextView
 
-    private lateinit var kConstraintSet: ConstraintSet
-    private var attributeCreator: AttributeCreator? = null
+    protected lateinit var kConstraintSet: ConstraintSet
+    protected var attributeCreator: AttributeCreator? = null
 
     init {
         initView()
@@ -35,16 +35,14 @@ abstract class AbsItemView(private var kContext: Context?) : ConstraintLayout(kC
     private fun initConstrainSet() {
         kConstraintSet = ConstraintSet().apply {
             ivRightIcon.apply {
-                connect(id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-                connect(id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+                centerVertically(id, ConstraintSet.PARENT_ID)
                 connect(id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
                 constrainHeight(id, ConstraintSet.WRAP_CONTENT)
                 constrainWidth(id, ConstraintSet.WRAP_CONTENT)
             }
 
             tvLeftTitle.apply {
-                connect(id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-                connect(id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+                centerVertically(id, ConstraintSet.PARENT_ID)
                 connect(id, ConstraintSet.START, ivRightIcon.id, ConstraintSet.END)
                 constrainHeight(id, ConstraintSet.WRAP_CONTENT)
                 constrainWidth(id, ConstraintSet.WRAP_CONTENT)
@@ -52,18 +50,21 @@ abstract class AbsItemView(private var kContext: Context?) : ConstraintLayout(kC
         }
     }
 
-    private fun addWidget() {
-        kConstraintSet.applyTo(this)
-    }
+    abstract fun createWidget()
 
     fun create(attrCreator: AttributeCreator) {
         attributeCreator = attrCreator
         setWidthAndHeightSet()
         setIconSet()
         setTitleTextSet()
+        createWidget()
         setItemBackground()
         setItemDivider()
         addWidget()
+    }
+
+    private fun addWidget() {
+        kConstraintSet.applyTo(this)
     }
 
     private fun setIconSet() {

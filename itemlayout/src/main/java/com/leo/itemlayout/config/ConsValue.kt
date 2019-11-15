@@ -12,8 +12,8 @@ import android.graphics.Color
  */
 const val ITEM_HEIGHT = 50
 
-const val LEFT_ICON_HEIGHT = 50
-const val LEFT_ICON_WIDTH = 50
+const val ICON_HEIGHT = 50
+const val ICON_WIDTH = 50
 const val ITEM_MARGIN = 20
 
 const val TEXT_SIZE = 20F
@@ -22,8 +22,6 @@ const val TEXT_COLOR = Color.BLACK
 const val BACKGROUND_COLOR = 0x7f06009e
 
 const val LINE_COLOR = 0x7f06004f
-
-const val ICON_HEIGHT = 24
 
 const val ICON_MARGIN_LEFT = 10
 
