@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--通用设置item-->
+    <declare-styleable name="ItemAttrs">
+        <attr name="item_text_size" format="integer" />
+        <attr name="item_text_color" format="color" />
+        <attr name="item_icon_margin_left" format="integer" />
+        <attr name="item_icon_text_margin" format="integer" />
+        <attr name="item_margin_right" format="integer" />
+        <attr name="item_item_height" format="integer" />
+        <attr name="item_line_color" format="color" />
+        <attr name="item_background_color" format="reference|color" />
+        <attr name="item_right_text_size" format="integer" />
+        <attr name="item_right_text_color" format="color" />
+        <attr name="item_right_text_margin" format="integer" />
+    </declare-styleable>
+</resources>
