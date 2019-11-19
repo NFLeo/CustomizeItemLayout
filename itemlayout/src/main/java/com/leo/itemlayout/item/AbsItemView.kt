@@ -12,6 +12,12 @@ import com.leo.itemlayout.AttributeCreator
 import com.leo.itemlayout.R
 import com.leo.itemlayout.config.ITEM_HEIGHT
 
+/**
+ * desc：基础item 包含左侧图标与标题</br>
+ * time: 2019/11/19-15:01</br>
+ * author：Leo </br>
+ * since V 1.0.0 </br>
+ */
 abstract class AbsItemView(private var kContext: Context?) : ConstraintLayout(kContext) {
 
     private lateinit var ivRightIcon: ImageView
@@ -60,10 +66,6 @@ abstract class AbsItemView(private var kContext: Context?) : ConstraintLayout(kC
         createWidget()
         setItemBackground()
         setItemDivider()
-        addWidget()
-    }
-
-    private fun addWidget() {
         kConstraintSet.applyTo(this)
     }
 
@@ -88,6 +90,7 @@ abstract class AbsItemView(private var kContext: Context?) : ConstraintLayout(kC
             kConstraintSet.setMargin(tvLeftTitle.id, ConstraintSet.START, titleMarginIcon)
             tvLeftTitle.setTextColor(titleTextColor)
             tvLeftTitle.textSize = titleTextSize
+            tvLeftTitle.singleLineShow()
 
             titleTextList?.apply {
                 tvLeftTitle.text = this[itemPosition]
@@ -149,4 +152,13 @@ abstract class AbsItemView(private var kContext: Context?) : ConstraintLayout(kC
             setBackgroundResource(itemBackgroundColor)
         }
     }
+
+    fun getTitleText() = tvLeftTitle
+
+    fun getIconImage() = ivRightIcon
+}
+
+fun TextView.singleLineShow() {
+    maxLines = 1
+    isSingleLine = true
 }

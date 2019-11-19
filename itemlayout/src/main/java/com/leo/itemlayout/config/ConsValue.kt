@@ -34,3 +34,8 @@ const val RIGHT_TEXT_SIZE = 15
 const val RIGHT_TEXT_COLOR = -0xcccccd
 
 const val RIGHT_TEXT_MARGIN = 10
+
+/**
+ * 文字样式实体类
+ */
+data class TextStyle(var textSizeSp: Float, var textColor: Int, var isTextBold: Boolean = false)

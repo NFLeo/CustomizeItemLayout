@@ -12,15 +12,17 @@ class ItemFactory(var context: Context) : AbsItemFactory() {
 
         if (mode == null) throw RuntimeException("please set mode")
 
-        var item: AbsItemView? = null
+        val item: AbsItemView?
 
         try {
-            when (mode) {
-                ItemMode.NORMAL -> item = NormalItemView(context)
-                ItemMode.ARROW -> item = ArrowItemView(context)
+            item = when (mode) {
+                ItemMode.NORMAL -> NormalItemView(context)
+                ItemMode.ARROW -> ArrowItemView(context)
+                ItemMode.TEXT_ARROW -> EndTextItemView(context)
+                else -> NormalItemView(context)
             }
 
-            item?.create(attrs)
+            item.create(attrs)
 
         } catch (e: Exception) {
             throw RuntimeException(e.message)

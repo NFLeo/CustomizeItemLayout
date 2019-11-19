@@ -11,7 +11,9 @@ import com.leo.itemlayout.R
  * author：Leo </br>
  * since V 1.0.0 </br>
  */
-class ArrowItemView(kContext: Context) : AbsItemView(kContext) {
+open class ArrowItemView(kContext: Context) : AbsItemView(kContext) {
+
+    private var ivRightIcon: ImageView? = null
 
     /**
      * 创建箭头
@@ -20,7 +22,7 @@ class ArrowItemView(kContext: Context) : AbsItemView(kContext) {
         attributeCreator?.apply {
             if (rightResourceId == null) return
 
-            ImageView(context).apply {
+            ivRightIcon = ImageView(context).apply {
                 id = R.id.id_right_icon
 
                 if (rightIconHeightPx <= 0) throw IllegalArgumentException("right icon height is 0")
@@ -40,4 +42,6 @@ class ArrowItemView(kContext: Context) : AbsItemView(kContext) {
             }
         }
     }
+
+    fun getEndImageView() = ivRightIcon
 }

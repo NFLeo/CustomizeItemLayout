@@ -4,4 +4,5 @@
     <item name="id_left_title" type="id" />
     <item name="id_divider" type="id" />
     <item name="id_right_icon" type="id" />
+    <item name="id_right_text" type="id" />
 </resources>

@@ -59,6 +59,14 @@ class AttributeCreator {
     var rightIconEndMargin: Int = ITEM_MARGIN
 
     /**
+     * 右侧文本
+     */
+    var rightTextStyle: TextStyle? = null
+    // 右边文本距离右边图标分隔距离
+    var rightTextMarginToIcon = 0
+    var rightTextList = SparseArray<String>()
+
+    /**
      * 设置每个Item都为同一种模式{@link ItemMode}
      */
     fun setItemMode(value: ItemMode) = this.run {
@@ -274,7 +282,7 @@ class AttributeCreator {
     /**
      * 设置右侧图标宽度
      */
-    fun setRightIconWidth(rightIconWidthPx: Int) = this.run {
+    fun setEndIconWidth(rightIconWidthPx: Int) = this.run {
         if (rightIconWidthPx > 0) this.rightIconWidthPx = rightIconWidthPx
         this
     }
@@ -282,7 +290,7 @@ class AttributeCreator {
     /**
      * 设置右侧图标高度
      */
-    fun setRightIconHeight(rightIconHeightPx: Int) = this.run {
+    fun setEndIconHeight(rightIconHeightPx: Int) = this.run {
         if (rightIconHeightPx > 0) this.rightIconHeightPx = rightIconHeightPx
         this
     }
@@ -290,7 +298,7 @@ class AttributeCreator {
     /**
      * 设置右侧图标资源
      */
-    fun setRightResourceId(rightResourceId: Int) = this.run {
+    fun setEndResourceId(rightResourceId: Int) = this.run {
         this.rightResourceId = rightResourceId
         this
     }
@@ -298,8 +306,47 @@ class AttributeCreator {
     /**
      * 设置右侧图标具体右边边界距离
      */
-    fun setRightIconEndMargin(rightIconEndMarginPx: Int) = this.run {
+    fun setEndIconEndMargin(rightIconEndMarginPx: Int) = this.run {
         this.rightIconEndMargin = rightIconEndMarginPx
+        this
+    }
+
+    /**
+     * 设置右侧文本字体风格{@link TextStyle}
+     */
+    fun setEndTextStyle(endTextStyle: TextStyle) = this.run {
+        this.rightTextStyle = endTextStyle
+        this
+    }
+
+    /**
+     * 设置右侧文本到右侧图标的margin
+     */
+    fun setEndTextMarginToIcon(rightTextMarginToIconPx: Int) = this.run {
+        if (rightTextMarginToIconPx > 0) this.rightTextMarginToIcon = rightTextMarginToIconPx
+        this
+    }
+
+    /**
+     * 设置指定位置item右侧文本
+     */
+    fun setEndTextValue(index: Int, textValue: String) = this.run {
+        rightTextList.put(index, textValue)
+        this
+    }
+
+    /**
+     * 设置所有位置item右侧文本
+     */
+    fun setEndTextValue(textValue: String) = this.run {
+
+        if (titleTextList?.size ?: 0 <= 0) {
+            throw RuntimeException("values is null")
+        }
+
+        titleTextList?.forEachIndexed { index, _ ->
+            rightTextList.put(index, textValue)
+        }
         this
     }
 }
