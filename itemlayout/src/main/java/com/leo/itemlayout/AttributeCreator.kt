@@ -2,6 +2,7 @@ package com.leo.itemlayout
 
 import android.util.SparseArray
 import android.util.SparseIntArray
+import android.view.View
 import com.leo.itemlayout.config.*
 
 /**
@@ -16,6 +17,8 @@ class AttributeCreator {
     val modeArray = SparseArray<ItemMode>()
     // 每一个 item 与 item 之间的 marginTop 的大小
     val marginTopArray = SparseIntArray()
+    var startMargin: Int = ITEM_MARGIN
+    var endMargin: Int = ITEM_MARGIN
 
     /**
      * 单个Item
@@ -31,14 +34,12 @@ class AttributeCreator {
     var leftIconWidthPx: Int = ICON_HEIGHT
     var leftIconHeightPx: Int = ICON_WIDTH
     var leftResourceIds: MutableList<Int>? = null
-    var leftIconStartMargin: Int = ITEM_MARGIN
 
     /**
      * 标题文本
      */
     var titleMarginIcon: Int = ITEM_MARGIN                   // 标题与图标的margin
-    var titleTextSize: Float = TEXT_SIZE
-    var titleTextColor: Int = TEXT_COLOR
+    var titleTextStyle: TextStyle? = null
     var titleTextList: MutableList<String>? = null
 
     /**
@@ -55,8 +56,7 @@ class AttributeCreator {
      */
     var rightIconWidthPx: Int = ICON_HEIGHT
     var rightIconHeightPx: Int = ICON_WIDTH
-    var rightResourceId: Int? = null
-    var rightIconEndMargin: Int = ITEM_MARGIN
+    var rightArrowResIds = SparseIntArray()
 
     /**
      * 右侧文本
@@ -65,6 +65,20 @@ class AttributeCreator {
     // 右边文本距离右边图标分隔距离
     var rightTextMarginToIcon = 0
     var rightTextList = SparseArray<String>()
+
+    /**
+     * 中间文本
+     */
+    var centerTextStyle: TextStyle? = null
+    // 中间文本距离左边图标分隔距离
+    var centerTextMarginToTitle = 0
+    var centerTextMarginToArrow = 0
+    var centerTextList = SparseArray<String>()
+
+    /**
+     * 其他自定义View
+     */
+    var otherItemView: View? = null
 
     /**
      * 设置每个Item都为同一种模式{@link ItemMode}
@@ -155,16 +169,24 @@ class AttributeCreator {
     /**
      * 设置左侧图标本地资源集合
      */
-    fun setIconResouceIds(iconResIds: MutableList<Int>) = this.run {
+    fun setIconResourceIds(iconResIds: MutableList<Int>) = this.run {
         leftResourceIds = iconResIds
         this
     }
 
     /**
-     * 图标距离起始位置的距离
+     * 内容与左边界距离
      */
-    fun setIconStartMargin(marginStartPx: Int) = this.run {
-        if (marginStartPx > 0) leftIconStartMargin = marginStartPx
+    fun setStartMargin(marginStartPx: Int) = this.run {
+        if (marginStartPx > 0) startMargin = marginStartPx
+        this
+    }
+
+    /**
+     * 内容与右边界距离
+     */
+    fun setEndMargin(marginEndPx: Int) = this.run {
+        if (marginEndPx > 0) endMargin = marginEndPx
         this
     }
 
@@ -185,21 +207,12 @@ class AttributeCreator {
     }
 
     /**
-     * 设置标题文本字体大小
+     * 设置标题文本文字属性
      */
-    fun setTitleTextSize(textSizePx: Float) = this.run {
-        if (textSizePx > 0) titleTextSize = textSizePx
+    fun setTitleTextStyle(textStyle: TextStyle) = this.run {
+        titleTextStyle = textStyle
         this
     }
-
-    /**
-     * 设置标题文本字体颜色
-     */
-    fun setTitleTextColor(textColor: Int) = this.run {
-        titleTextColor = textColor
-        this
-    }
-
 
     /**
      * 设置左侧图标本地资源集合
@@ -298,16 +311,10 @@ class AttributeCreator {
     /**
      * 设置右侧图标资源
      */
-    fun setEndResourceId(rightResourceId: Int) = this.run {
-        this.rightResourceId = rightResourceId
-        this
-    }
-
-    /**
-     * 设置右侧图标具体右边边界距离
-     */
-    fun setEndIconEndMargin(rightIconEndMarginPx: Int) = this.run {
-        this.rightIconEndMargin = rightIconEndMarginPx
+    fun setEndResourceId(resourceId: Int, vararg positions: Int) = this.run {
+        positions.filter { it < titleTextList?.size ?: 0 }.forEach {
+            rightArrowResIds.put(it, resourceId)
+        }
         this
     }
 
@@ -347,6 +354,61 @@ class AttributeCreator {
         titleTextList?.forEachIndexed { index, _ ->
             rightTextList.put(index, textValue)
         }
+        this
+    }
+
+    /**
+     * 设置中间文本字体风格{@link TextStyle}
+     */
+    fun setCenterTextStyle(centerTextStyle: TextStyle) = this.run {
+        this.centerTextStyle = centerTextStyle
+        this
+    }
+
+    /**
+     * 设置中间文本到左侧标题的margin
+     */
+    fun setCenterTextMarginToTitle(centerTextMarginToTitlePx: Int) = this.run {
+        if (centerTextMarginToTitlePx > 0) this.centerTextMarginToTitle = centerTextMarginToTitlePx
+        this
+    }
+
+    /**
+     * 设置中间文本到右侧箭头图标的margin
+     */
+    fun setCenterTextMarginToArrow(centerTextMarginToArrowPx: Int) = this.run {
+        if (centerTextMarginToArrowPx > 0) this.centerTextMarginToArrow = centerTextMarginToArrowPx
+        this
+    }
+
+    /**
+     * 设置指定位置item中间文本
+     */
+    fun setCenterTextValue(index: Int, textValue: String) = this.run {
+        centerTextList.put(index, textValue)
+        this
+    }
+
+    /**
+     * 设置所有位置item中间文本
+     */
+    fun setCenterTextValue(textValue: String) = this.run {
+
+        if (titleTextList?.size ?: 0 <= 0) {
+            throw RuntimeException("values is null")
+        }
+
+        titleTextList?.forEachIndexed { index, _ ->
+            centerTextList.put(index, textValue)
+        }
+        this
+    }
+
+    /**
+     * 添加其他自定义View
+     */
+    fun addOtherItemView(otherView: View) = this.run {
+        this.otherItemView = otherView
         this
     }
 }

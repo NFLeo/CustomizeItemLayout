@@ -1,5 +1,6 @@
 package com.leo.itemlayout
 
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
@@ -8,8 +9,8 @@ import android.widget.LinearLayout
 import com.leo.itemlayout.config.*
 import com.leo.itemlayout.item.AbsItemFactory
 import com.leo.itemlayout.item.AbsItemView
+import com.leo.itemlayout.item.IconItemView
 import com.leo.itemlayout.item.ItemFactory
-import com.leo.itemlayout.item.NormalItemView
 
 class BaseItemLayout : LinearLayout {
 
@@ -47,8 +48,8 @@ class BaseItemLayout : LinearLayout {
         kBackgroundColor = a.getResourceId(
             R.styleable.ItemAttrs_item_background_color, BACKGROUND_COLOR
         )
-        textSize = a.getFloat(R.styleable.ItemAttrs_item_text_size, TEXT_SIZE)
-        textColor = a.getColor(R.styleable.ItemAttrs_item_text_color, TEXT_COLOR)
+        textSize = a.getFloat(R.styleable.ItemAttrs_item_text_size, 0f)
+        textColor = a.getColor(R.styleable.ItemAttrs_item_text_color, 0)
         iconMarginLeft = a.getInt(R.styleable.ItemAttrs_item_icon_margin_left, ICON_MARGIN_LEFT)
         iconTextMargin = a.getInt(R.styleable.ItemAttrs_item_icon_text_margin, ICON_TEXT_MARGIN)
         arrowMarginRight = a.getInt(R.styleable.ItemAttrs_item_margin_right, ARROW_MARGIN_RIGHT)
@@ -63,7 +64,8 @@ class BaseItemLayout : LinearLayout {
     private fun initItem() {
         orientation = VERTICAL
         factory = ItemFactory(context)
-        addView(NormalItemView(context))
+        layoutTransition = LayoutTransition()
+        addView(IconItemView(context))
     }
 
     fun setAttributeCreator(attrs: AttributeCreator) = this.apply {
@@ -76,35 +78,16 @@ class BaseItemLayout : LinearLayout {
         if (attributeCreator.itemBackgroundColor == 0) {
             attributeCreator.setItemBackgroundColor(kBackgroundColor)
         }
-        if (attributeCreator.titleTextSize == 0f) {
-            attributeCreator.setTitleTextSize(textSize)
+        if (textSize > 0 && textColor != 0) {
+            // xml中定义了标题字体大小和颜色则重写
+            attributeCreator.setTitleTextStyle(TextStyle(textSize, textColor))
         }
-        if (attributeCreator.titleTextColor == 0) {
-            attributeCreator.setTitleTextColor(textColor)
+        if (attributeCreator.startMargin == 0) {
+            attributeCreator.setStartMargin(iconMarginLeft)
         }
-        if (attributeCreator.leftIconStartMargin == 0) {
-            attributeCreator.setIconStartMargin(iconMarginLeft)
-        }
-
         if (attributeCreator.itemViewHeightPx == 0) {
             attributeCreator.setItemViewHeight(itemHeight)
         }
-        // TODO 2019/11/14 Leo初始化参数
-//        if (attributeCreator.getRightTextMargin() == 0) {
-//            attributeCreator.setRightTextMargin(rightTextMargin)
-//        }
-//        if (attributeCreator.getRightTextColor() == 0) {
-//            attributeCreator.setRightTextColor(rightTextColor)
-//        }
-//        if (attributeCreator.getRightTextSize() == 0) {
-//            attributeCreator.setRightTextSize(rightTextSize)
-//        }
-//        if (attributeCreator.getIconTextMargin() == 0) {
-//            attributeCreator.setIconTextMargin(iconTextMargin)
-//        }
-//        if (attributeCreator.getArrowMarginRight() == 0) {
-//            attributeCreator.setArrowMarginRight(arrowMarginRight)
-//        }
         createItems()
     }
 
@@ -119,11 +102,11 @@ class BaseItemLayout : LinearLayout {
             val modeArray = attributeCreator.modeArray
             val mode = modeArray.get(index)
 
-            if (mode === ItemMode.OTHER) {
+            if (mode == ItemMode.OTHER) {
                 // TODO 2019/11/14 Leo other View
-//                if (attributeCreator.getOtherView() != null) {
-//                    addItem(attributeCreator.getOtherView(), i)
-//                }
+                if (attributeCreator.otherItemView != null) {
+                    addItem(attributeCreator.otherItemView!!, index)
+                }
             } else {
                 val itemView = factory.createItem<AbsItemView>(mode, attributeCreator)
                 addItem(itemView, index)
@@ -131,7 +114,7 @@ class BaseItemLayout : LinearLayout {
         }
     }
 
-    private fun addItem(view: AbsItemView, index: Int) {
+    private fun addItem(view: View, index: Int) {
         addView(view)
 
         val marginTop = attributeCreator.marginTopArray.get(index)
@@ -143,11 +126,6 @@ class BaseItemLayout : LinearLayout {
         }
 
         view.setOnClickListener { itemClickListener?.onItemClick(index) }
-        // TODO 2019/11/14 Leo 响应事件
-//        if (onSwitchClickListener != null) {
-//            setButtonClick()
-//        }
-
         viewList.add(view)
     }
 
@@ -155,6 +133,8 @@ class BaseItemLayout : LinearLayout {
         this.itemClickListener = listener
         this
     }
+
+    fun getChildViewList() = viewList
 
     interface OnItemClickListener {
         fun onItemClick(index: Int)

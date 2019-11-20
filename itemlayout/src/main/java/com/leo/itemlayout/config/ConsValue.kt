@@ -16,7 +16,7 @@ const val ICON_HEIGHT = 50
 const val ICON_WIDTH = 50
 const val ITEM_MARGIN = 20
 
-const val TEXT_SIZE = 20F
+const val TEXT_SIZE = 15F
 const val TEXT_COLOR = Color.BLACK
 
 const val BACKGROUND_COLOR = 0x7f06009e
@@ -34,8 +34,3 @@ const val RIGHT_TEXT_SIZE = 15
 const val RIGHT_TEXT_COLOR = -0xcccccd
 
 const val RIGHT_TEXT_MARGIN = 10
-
-/**
- * 文字样式实体类
- */
-data class TextStyle(var textSizeSp: Float, var textColor: Int, var isTextBold: Boolean = false)

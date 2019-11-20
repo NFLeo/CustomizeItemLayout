@@ -5,4 +5,6 @@
     <item name="id_divider" type="id" />
     <item name="id_right_icon" type="id" />
     <item name="id_right_text" type="id" />
+    <item name="id_center_text" type="id" />
+    <item name="id_center_edit" type="id" />
 </resources>

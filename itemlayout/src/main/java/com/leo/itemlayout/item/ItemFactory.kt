@@ -16,10 +16,11 @@ class ItemFactory(var context: Context) : AbsItemFactory() {
 
         try {
             item = when (mode) {
-                ItemMode.NORMAL -> NormalItemView(context)
-                ItemMode.ARROW -> ArrowItemView(context)
-                ItemMode.TEXT_ARROW -> EndTextItemView(context)
-                else -> NormalItemView(context)
+                ItemMode.ICON_TITLE -> IconItemView(context)
+                ItemMode.TITLE_END_TEXT -> EndTextItemView(context)
+                ItemMode.TITLE_CENTER_TEXT -> CenterTextItemView(context)
+                ItemMode.TITLE_CENTER_EDIT -> CenterEditItemView(context)
+                else -> TitleItemView(context)
             }
 
             item.create(attrs)
