@@ -2,7 +2,6 @@ package com.leo.itemlayout.item
 
 import android.content.Context
 import android.widget.EditText
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintSet
 import com.leo.itemlayout.R
 

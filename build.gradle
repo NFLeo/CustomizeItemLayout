@@ -26,12 +26,11 @@ allprojects {
 ext {
     compileSdkVersion = 29
 
-    minSdkVersion = 19
+    minSdkVersion = 17
     targetSdkVersion = 29
 
     appcompat = '1.1.0'
     material = '1.0.0'
-    glide = '4.7.1'
     constraintlayout = '1.1.3'
 }
 

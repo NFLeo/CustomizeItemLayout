@@ -25,7 +25,7 @@ class AttributeCreator {
      */
     var itemPosition: Int = 0                               // 当前条目所在位置
     var itemViewHeightPx: Int = ITEM_HEIGHT                 // 每个条目的高度
-    var itemBackgroundColor: Int = R.color.white
+    var itemBackgroundColor: Int = R.color.transparent
     var itemNeedBorderless = true
 
     /**

@@ -1,7 +1,6 @@
 package com.leo.itemlayout.item
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Build
 import android.text.TextUtils
 import android.util.TypedValue

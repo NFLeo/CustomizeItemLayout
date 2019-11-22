@@ -13,5 +13,8 @@ class MainActivity : AppCompatActivity() {
         tv_sample.setOnClickListener {
             startActivity(Intent(this, SampleActivity::class.java))
         }
+        tv_wms.setOnClickListener {
+            startActivity(Intent(this, WMSActivity::class.java))
+        }
     }
 }
